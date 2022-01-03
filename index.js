@@ -1,7 +1,7 @@
 const express = require("express");
 require('dotenv').config();
 const cors = require('cors');
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 const { use } = require("express/lib/router");
 
 const app = express();
@@ -28,6 +28,13 @@ async function run() {
             const cursor = courseCollection.find(query);
             const courses = await cursor.toArray();
             res.json(courses);
+        });
+
+        app.get('/courses/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await courseCollection.findOne(query);
+            res.json(result);
         });
 
         //post user
