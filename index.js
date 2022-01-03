@@ -20,6 +20,7 @@ async function run() {
         const database = client.db('E-Smart');
         const courseCollection = database.collection('courses')
         const userCollection = database.collection('users');
+        const blogCollection = database.collection('blogs');
 
         //get course data
         app.get('/courses', async (req, res) => {
@@ -42,6 +43,14 @@ async function run() {
             const cursor = userCollection.find(query);
             const users = await cursor.toArray();
             res.json(users);
+        });
+
+        //get blogs data
+        app.get('/blogs', async (req, res) => {
+            const query = {};
+            const cursor = blogCollection.find(query);
+            const blogs = await cursor.toArray();
+            res.json(blogs);
         });
     }
     finally {
