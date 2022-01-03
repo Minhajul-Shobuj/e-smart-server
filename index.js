@@ -2,6 +2,7 @@ const express = require("express");
 require('dotenv').config();
 const cors = require('cors');
 const { MongoClient } = require('mongodb');
+const { use } = require("express/lib/router");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -18,12 +19,18 @@ async function run() {
         // console.log('connected to database')
         const database = client.db('E-Smart');
         const courseCollection = database.collection('courses')
+        const userCollection = database.collection('users');
 
         app.get('/courses', async (req, res) => {
             const query = {};
             const cursor = courseCollection.find(query);
             const projects = await cursor.toArray();
             res.json(projects);
+        });
+        app.post('/users', async (req, res) => {
+            const user = req.body;
+            const result = await userCollection.insertOne(user);
+            res.json(result);
         });
     }
     finally {
