@@ -53,7 +53,7 @@ async function run() {
             res.json(users);
         });
 
-        //get blogs data
+        //get blogs api
         app.get('/blogs', async (req, res) => {
             const query = {};
             const cursor = blogCollection.find(query);
@@ -73,6 +73,7 @@ async function run() {
             const reviews = await cursor.toArray();
             res.json(reviews);
         });
+    
     }
     finally {
         // await client.close()
