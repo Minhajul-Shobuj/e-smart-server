@@ -18,9 +18,10 @@ async function run() {
         await client.connect();
         // console.log('connected to database')
         const database = client.db('E-Smart');
-        const courseCollection = database.collection('courses')
+        const courseCollection = database.collection('courses');
         const userCollection = database.collection('users');
         const blogCollection = database.collection('blogs');
+        const reviewCollection = database.collection('reviews');
 
         //get course data
         app.get('/courses', async (req, res) => {
@@ -58,6 +59,19 @@ async function run() {
             const cursor = blogCollection.find(query);
             const blogs = await cursor.toArray();
             res.json(blogs);
+        });
+        //post review
+        app.post('/review', async (req, res) => {
+            const review = req.body;
+            const result = await reviewCollection.insertOne(review);
+            res.json(result);
+        });
+        //get review
+        app.get('/review', async (req, res) => {
+            const query = {};
+            const cursor = reviewCollection.find(query);
+            const reviews = await cursor.toArray();
+            res.json(reviews);
         });
     }
     finally {
