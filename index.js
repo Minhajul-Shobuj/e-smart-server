@@ -21,16 +21,27 @@ async function run() {
         const courseCollection = database.collection('courses')
         const userCollection = database.collection('users');
 
+        //get course data
         app.get('/courses', async (req, res) => {
             const query = {};
             const cursor = courseCollection.find(query);
-            const projects = await cursor.toArray();
-            res.json(projects);
+            const courses = await cursor.toArray();
+            res.json(courses);
         });
+
+        //post user
         app.post('/users', async (req, res) => {
             const user = req.body;
             const result = await userCollection.insertOne(user);
             res.json(result);
+        });
+
+        //get user data
+        app.get('/users', async (req, res) => {
+            const query = {};
+            const cursor = userCollection.find(query);
+            const users = await cursor.toArray();
+            res.json(users);
         });
     }
     finally {
