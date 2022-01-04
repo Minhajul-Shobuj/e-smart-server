@@ -76,19 +76,19 @@ async function run() {
         });
 
         // delete user order
-        app.delete('/orders/:id', async(req, res) => {
-            const dltId = req.params.id 
-            const query = {_id: ObjectId(dltId)}
+        app.delete('/orders/:id', async (req, res) => {
+            const dltId = req.params.id
+            const query = { _id: ObjectId(dltId) }
             const result = await orderCollection.deleteOne(query)
             res.json(result)
         })
 
         // set user as admin or update user as admin
-        app.put('/users/admin', async(req, res) => {
-            const adminEmail = req.body 
-            const filter = {email: adminEmail.email}
+        app.put('/users/admin', async (req, res) => {
+            const adminEmail = req.body
+            const filter = { email: adminEmail.email }
             const updateDoc = {
-                $set: {role: "admin"}
+                $set: { role: "admin" }
             }
             const result = await userCollection.updateOne(filter, updateDoc)
             res.json(result)
@@ -97,27 +97,26 @@ async function run() {
         // get admin from user collection
         app.get('/users/:email', async (req, res) => {
             const userEmail = req.params.email
-            const query = {email: userEmail}
+            const query = { email: userEmail }
             const result = await userCollection.findOne(query)
             let isAdmin = false;
-            if(result?.role == "admin"){
+            if (result?.role == "admin") {
                 isAdmin = true
             }
-            res.json({admin: isAdmin})
+            res.json({ admin: isAdmin })
 
         })
 
         // finish all method
-=======
         app.post('/order', async (req, res) => {
             const order = req.body;
             const result = await orderCollection.insertOne(order);
             res.json(result)
         });
         // delete order 
-        app.delete('/deleteOrder/:id',async(req,res) => {
+        app.delete('/deleteOrder/:id', async (req, res) => {
             const id = req.params.id;
-            const query = {_id:ObjectId(id)};
+            const query = { _id: ObjectId(id) };
             const result = await orderCollection.deleteOne(query);
             res.json(result);
         })
