@@ -106,6 +106,8 @@ async function run() {
             res.json({admin: isAdmin})
 
         })
+
+        // finish all method
     }
     finally {
         // await client.close()
