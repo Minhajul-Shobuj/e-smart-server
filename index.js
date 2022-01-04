@@ -22,6 +22,7 @@ async function run() {
         const userCollection = database.collection('users');
         const blogCollection = database.collection('blogs');
         const reviewCollection = database.collection('reviews');
+        const orderCollection = database.collection('Orders')
 
         //get course data
         app.get('/courses', async (req, res) => {
@@ -73,7 +74,12 @@ async function run() {
             const reviews = await cursor.toArray();
             res.json(reviews);
         });
-    
+        app.post('/order',async(req,res) => {
+            const order = req.body;
+            const result = await orderCollection.insertOne(order);
+            res.json(result)
+        })
+        
     }
     finally {
         // await client.close()
