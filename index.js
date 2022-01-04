@@ -74,12 +74,18 @@ async function run() {
             const reviews = await cursor.toArray();
             res.json(reviews);
         });
-        app.post('/order',async(req,res) => {
+        app.post('/order', async (req, res) => {
             const order = req.body;
             const result = await orderCollection.insertOne(order);
             res.json(result)
         })
-        
+        app.get('/orders', async (req, res) => {
+            const query = {};
+            const cursor = orderCollection.find(query);
+            const orders = await cursor.toArray();
+            res.json(orders);
+        });
+
     }
     finally {
         // await client.close()
