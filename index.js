@@ -54,7 +54,7 @@ async function run() {
             res.json(users);
         });
 
-        //get blogs data
+        //get blogs api
         app.get('/blogs', async (req, res) => {
             const query = {};
             const cursor = blogCollection.find(query);
@@ -108,6 +108,32 @@ async function run() {
         })
 
         // finish all method
+=======
+        app.post('/order', async (req, res) => {
+            const order = req.body;
+            const result = await orderCollection.insertOne(order);
+            res.json(result)
+        });
+        // delete order 
+        app.delete('/deleteOrder/:id',async(req,res) => {
+            const id = req.params.id;
+            const query = {_id:ObjectId(id)};
+            const result = await orderCollection.deleteOne(query);
+            res.json(result);
+        })
+        app.get('/orders', async (req, res) => {
+            const query = {};
+            const cursor = orderCollection.find(query);
+            const orders = await cursor.toArray();
+            res.json(orders);
+        });
+        app.get('/myOrder/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { email: email };
+            const result = await orderCollection.find(query).toArray();
+            res.json(result);
+        });
+
     }
     finally {
         // await client.close()
