@@ -82,6 +82,30 @@ async function run() {
             const result = await orderCollection.deleteOne(query)
             res.json(result)
         })
+
+        // set user as admin 
+        app.put('/users/admin', async(req, res) => {
+            const adminEmail = req.body 
+            const filter = {email: adminEmail.email}
+            const updateDoc = {
+                $set: {role: "admin"}
+            }
+            const result = await userCollection.updateOne(filter, updateDoc)
+            res.json(result)
+        })
+
+        // get admin from user collection
+        app.get('/users/:email', async (req, res) => {
+            const userEmail = req.params.email
+            const query = {email: userEmail}
+            const result = await userCollection.findOne(query)
+            let isAdmin = false;
+            if(result?.role == "admin"){
+                isAdmin = true
+            }
+            res.json({admin: isAdmin})
+
+        })
     }
     finally {
         // await client.close()
