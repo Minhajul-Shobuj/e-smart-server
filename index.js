@@ -83,7 +83,7 @@ async function run() {
             res.json(result)
         })
 
-        // set user as admin 
+        // set user as admin or update user as admin
         app.put('/users/admin', async(req, res) => {
             const adminEmail = req.body 
             const filter = {email: adminEmail.email}
