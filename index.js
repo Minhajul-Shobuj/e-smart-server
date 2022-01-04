@@ -22,6 +22,7 @@ async function run() {
         const userCollection = database.collection('users');
         const blogCollection = database.collection('blogs');
         const reviewCollection = database.collection('reviews');
+        const orderCollection = database.collection('Orders')
 
         //get course data
         app.get('/courses', async (req, res) => {
@@ -73,6 +74,14 @@ async function run() {
             const reviews = await cursor.toArray();
             res.json(reviews);
         });
+
+        // delete user order
+        app.delete('/orders/:id', async(req, res) => {
+            const dltId = req.params.id 
+            const query = {_id: ObjectId(dltId)}
+            const result = await orderCollection.deleteOne(query)
+            res.json(result)
+        })
     }
     finally {
         // await client.close()
